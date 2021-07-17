@@ -60,12 +60,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <View
-                android:id="@+id/placeholder_graph"
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graph_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp" />
 
         </LinearLayout>
 
