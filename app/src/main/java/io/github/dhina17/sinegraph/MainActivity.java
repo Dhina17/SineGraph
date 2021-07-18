@@ -1,5 +1,6 @@
 package io.github.dhina17.sinegraph;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         handlerThread.start();
 
         // Handle instance creation
-        mHandler = new GraphHandler(handlerThread.getLooper());
+        mHandler = new GraphHandler(handlerThread.getLooper(), this);
 
         // Add series to the graph view
         graph.addSeries(SERIES);
@@ -100,12 +101,16 @@ public class MainActivity extends AppCompatActivity {
 
     // Custom Handler to handle pause and play action
     static class GraphHandler extends Handler {
-        public GraphHandler(Looper looper) {
+        public GraphHandler(Looper looper, Context context) {
             super(looper);
+            // Set the context
+            this.context = context;
             // Start the timer task.
             updateGraph();
         }
 
+        // Context
+        private final Context context;
         // Queue to hold the data
         private final Queue<DataPoint> queue = new LinkedList<>();
         // Bool pointed to pause state
@@ -126,13 +131,20 @@ public class MainActivity extends AppCompatActivity {
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
+                    boolean isToastShown = true;
                     if (!isPaused && !queue.isEmpty()) {
+                        isToastShown = false;
                         DataPoint dp = queue.remove();
                         Log.i("GraphView", "Plotted x = " + dp.getX() + " y = " + dp.getY());
                         MainActivity.SERIES.appendData(dp, false, 100);
                     }
+                    // Show toast for plotted all points.
+                    if (queue.isEmpty() && !isToastShown) {
+                        post(() -> Toast.makeText(context, "Inputs over.All values are plotted", Toast.LENGTH_SHORT).show());
+                    }
                 }
             }, 0, 3000L);
+
         }
 
         // Get the points from the message and add it to the queue.
