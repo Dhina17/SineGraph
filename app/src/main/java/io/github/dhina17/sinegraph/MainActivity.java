@@ -129,9 +129,10 @@ public class MainActivity extends AppCompatActivity {
         private synchronized void updateGraph() {
             Timer timer = new Timer();
             timer.scheduleAtFixedRate(new TimerTask() {
+                boolean isToastShown = true;
+
                 @Override
                 public void run() {
-                    boolean isToastShown = true;
                     if (!isPaused && !queue.isEmpty()) {
                         isToastShown = false;
                         DataPoint dp = queue.remove();
@@ -141,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                     // Show toast for plotted all points.
                     if (queue.isEmpty() && !isToastShown) {
                         post(() -> Toast.makeText(context, "Inputs over.All values are plotted", Toast.LENGTH_SHORT).show());
+                        isToastShown = true;
                     }
                 }
             }, 0, 3000L);
