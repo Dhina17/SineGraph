@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
         mBinding.enterButton.setOnClickListener((view) -> {
             // Get the input text
             String input = editText.getText().toString();
+            // Handle empty text
+            if (input.isEmpty()) {
+                Toast.makeText(this, "Empty Input", Toast.LENGTH_SHORT).show();
+                return;
+            }
             // Add x value to the list
             enter(input);
             // Reset the text
