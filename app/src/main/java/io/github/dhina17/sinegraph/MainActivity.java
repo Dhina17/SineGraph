@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private static final LineGraphSeries<DataPoint> SERIES = new LineGraphSeries<>(
             new DataPoint[]{new DataPoint(0, 0)}
     );
+    private double previousX = 0;
     private static final String X_VALUE_KEY = "X_VALUE_KEY";
     private static final String Y_VALUE_KEY = "Y_VALUE_KEY";
 
@@ -78,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
         // Post the message
         mHandler.post(() -> {
             double x = Double.parseDouble(input);
+            if (x < previousX) {
+                Toast.makeText(this, "Input (x value) should be greater than previous value", Toast.LENGTH_LONG).show();
+                return;
+            }
+            previousX = x;
             double inDeg = x / 3600;
             double y = Math.sin(inDeg);
             Message msg = Message.obtain(mHandler);
