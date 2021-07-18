@@ -90,10 +90,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void play() {
         mHandler.play();
+        Toast.makeText(this, "Play", Toast.LENGTH_LONG).show();
     }
 
     private void pause() {
         mHandler.pause();
+        Toast.makeText(this, "Pause", Toast.LENGTH_LONG).show();
     }
 
     // Custom Handler to handle pause and play action
