@@ -64,7 +64,7 @@
             android:orientation="vertical">
 
             <com.jjoe64.graphview.GraphView
-                android:id="@+id/graph_view"
+                android:id="@+id/graphView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp" />
